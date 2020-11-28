@@ -1,0 +1,8 @@
+<component name="libraryTable">
+  <library name="com.opencsv:opencsv:5.3" type="repository">
+    <properties maven-id="com.opencsv:opencsv:5.3" />
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
