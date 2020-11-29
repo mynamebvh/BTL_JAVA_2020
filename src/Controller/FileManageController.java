@@ -26,6 +26,16 @@ public class FileManageController {
         }
     }
 
+    public void OpenFileToWriteNoAppend(String fileName){
+        try {
+            fileWriter = new FileWriter(fileName);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            printWriter = new PrintWriter(bufferedWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void CloseFileAfterWrite(String fileName){
 
         try {
@@ -138,7 +148,6 @@ public class FileManageController {
         Member mem = getMember(member, Integer.parseInt(datas[0]));
         Subject sub = getSubject(subjects, Integer.parseInt(datas[1]));
         MemberSubjectManage memberSubjectManage = new MemberSubjectManage(mem, sub, datas[2]);
-
         return memberSubjectManage;
     }
 
@@ -148,7 +157,7 @@ public class FileManageController {
             file.delete();
         }
 
-        OpenFileToWrite(fileName);
+        OpenFileToWriteNoAppend(fileName);
         for(Member member : members){
             WriteMemberToFile(fileName, member);
         }
@@ -161,7 +170,7 @@ public class FileManageController {
             file.delete();
         }
 
-        OpenFileToWrite(fileName);
+        OpenFileToWriteNoAppend(fileName);
         for(Subject subject : subjects){
             WriteSubjectToFile(fileName, subject);
         }
@@ -183,7 +192,7 @@ public class FileManageController {
         CloseFileAfterWrite(fileName);
 
     }
-    private Member getMember(LinkedList<Member> member, int memberId){
+    public Member getMember(LinkedList<Member> member, int memberId){
         for(Member mem : member){
             if(mem.getStudentId() == memberId)
                 return mem;
@@ -192,7 +201,7 @@ public class FileManageController {
     }
 
 
-    private Subject getSubject(LinkedList<Subject> subjects, int subjectId){
+    public Subject getSubject(LinkedList<Subject> subjects, int subjectId){
         for(Subject sub : subjects)
             if(sub.getSubjectId() == subjectId)
                 return sub;
