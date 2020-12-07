@@ -184,7 +184,7 @@ public class FileManageController {
             file.delete();
         }
 
-        OpenFileToWrite(fileName);
+        OpenFileToWriteNoAppend(fileName);
         for(MemberSubjectManage MSM : MSMS){
             WriteMemSubManageToFile(fileName, MSM);
         }

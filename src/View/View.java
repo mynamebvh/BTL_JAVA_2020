@@ -1,15 +1,10 @@
 package View;
 
-import Controller.FunctionController;
-import Controller.FileManageController;
+import Controller.*;
 import Model.Member;
 import Model.MemberSubjectManage;
 import Model.Subject;
-
-import java.io.File;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class View {
     public static void main(String[] args) {
@@ -125,13 +120,20 @@ public class View {
                         }
                         break;
                     case 4:
-                        System.out.println("Nhập id thành viên muốn xóa: ");
-                        memberId = sc.nextInt();
+                        do {
+                            System.out.println("Nhập id thành viên muốn xóa: ");
+                            memberId = sc.nextInt();
+                        }while (functionController.CheckTheMemId(members, memberId) == false);
+
                         LinkedList<Member> member3 = functionController.DeleteMember(members,
                                 memberId, FILE_NAME_MEMSUBMANAGE);
+                        LinkedList<MemberSubjectManage> msm1 =
+                                functionController.DeleteMSMByMemId(memberId, memberSubjectManages);
                         if(member3 != null){
                             fileManageController.UpdateMember(FILE_NAME_MEMBER, member3);
+                            fileManageController.UpdateMemSubManage(FILE_NAME_MEMSUBMANAGE, msm1);
                         }
+
                         break;
                     case 5:
                         subjectId = functionController.CheckSubjectStrict(subjects);
@@ -144,7 +146,6 @@ public class View {
                         break;
                     case 7:
                         int choose2;
-                        FunctionController functionController1 = new FunctionController();
                         do{
                             System.out.println("Nhập id lớp: ");
                             subjectId = sc.nextInt();
@@ -197,13 +198,21 @@ public class View {
                         }
                         break;
                     case 8:
-                        System.out.println("Nhập id lớp: ");
-                        subjectId = sc.nextInt();
+
+                        do {
+                            System.out.println("Nhập id lớp: ");
+                            subjectId = sc.nextInt();
+                        }while (functionController.CheckTheSubjectId(subjects, subjectId) == false);
+
 
                         LinkedList<Subject> subjects1 = functionController.DeleteSubject(subjects,
                                 subjectId, FILE_NAME_MEMSUBMANAGE);
+                        LinkedList<MemberSubjectManage> msm2 =
+                                functionController.DeleteMSMBySubId(subjectId, memberSubjectManages);
+
                         if(subjects1 != null){
                             fileManageController.UpdateSubject(FILE_NAME_SUBJECT, subjects1);
+                            fileManageController.UpdateMemSubManage(FILE_NAME_MEMSUBMANAGE, msm2);
                         }
                         break;
                     case 9:
@@ -249,6 +258,47 @@ public class View {
                         functionController.DisplayAllMSM(memberSubjectManages);
                         break;
                     case 11:
+                        int choose4;
+                        while(true){
+                            System.out.println("====================SẮP XẾP MEMBER====================");
+                            System.out.println("1. Sắp xếp thành viên theo họ tên\n2. Sắp xếp thành viên theo tên lớp" +
+                                    "\n3. Sắp xếp thành viên theo khóa" + "\n4. Sắp xếp lớp theo tên lớp" +
+                                     "\n5. Sắp xếp lớp theo tên giáo viên\n6. Sắp xếp Manage theo trạng thái" +
+                                    "\n0. Thoát");
+                            System.out.println("Lựa chọn: ");
+                            choose4 = sc.nextInt();
+
+                            if(choose4 == 0){
+                                break;
+                            }
+
+                            switch (choose4){
+                                case 1:
+                                    Collections.sort(members, new SortMemByName());
+                                    functionController.DisplayAllMember(members);
+                                    break;
+                                case 2:
+                                    Collections.sort(members, new SortMemByClassName());
+                                    functionController.DisplayAllMember(members);
+                                    break;
+                                case 3:
+                                    Collections.sort(members, new SortMemByYear());
+                                    functionController.DisplayAllMember(members);
+                                    break;
+                                case 4:
+                                    Collections.sort(subjects, new SortSubByName());
+                                    functionController.DisplayAllSubject(subjects);
+                                    break;
+                                case 5:
+                                    Collections.sort(subjects, new SortSubByTeacherName());
+                                    functionController.DisplayAllSubject(subjects);
+                                    break;
+                                case 6:
+                                    Collections.sort(memberSubjectManages, new SortManageByStatus());
+                                    functionController.DisplayAllMSM(memberSubjectManages);
+                                    break;
+                            }
+                        }
 
                         break;
                     case 12:
@@ -308,6 +358,7 @@ public class View {
                                 System.out.println("Lựa chọn không tồn tại");
                         }
                         break;
+
                     default:
                         throw new IllegalStateException("Unexpected value: " + choose);
                 }

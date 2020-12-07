@@ -4,7 +4,6 @@ import Model.Member;
 import Model.MemberSubjectManage;
 import Model.Subject;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -335,6 +334,23 @@ public class FunctionController {
         return null;
     }
 
+    public LinkedList<MemberSubjectManage> DeleteMSMByMemId(int memberId, LinkedList<MemberSubjectManage> msbs){
+        for(int i = 0 ;i < msbs.size(); i++){
+            if(msbs.get(i).getMember().getStudentId() == memberId){
+                msbs.remove(i);
+            }
+        }
+        return msbs;
+    };
+
+    public LinkedList<MemberSubjectManage> DeleteMSMBySubId(int subjectId, LinkedList<MemberSubjectManage> msbs){
+        for(int i = 0 ;i < msbs.size(); i++){
+            if(msbs.get(i).getSubject().getSubjectId() == subjectId){
+                msbs.remove(i);
+            }
+        }
+        return msbs;
+    };
     // Các phương thức tìm kiếm
     public void FindMemberById(LinkedList<Member> members, int memberId){
         System.out.printf("%-15s%-15s%-20s%-10s%-10s%-15s%-15s%-15s%-15s", "ID", "StudentCode", "FullName",
