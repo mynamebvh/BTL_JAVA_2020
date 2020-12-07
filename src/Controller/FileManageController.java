@@ -192,6 +192,7 @@ public class FileManageController {
         CloseFileAfterWrite(fileName);
 
     }
+
     public Member getMember(LinkedList<Member> member, int memberId){
         for(Member mem : member){
             if(mem.getStudentId() == memberId)
@@ -199,7 +200,6 @@ public class FileManageController {
         }
         return null;
     }
-
 
     public Subject getSubject(LinkedList<Subject> subjects, int subjectId){
         for(Subject sub : subjects)

@@ -107,6 +107,7 @@ public class FunctionController {
             memberSubjectManage.ExportMemberSubjectManage();
         }
     }
+
     //Các phương thức sửa thông tin
 
     public LinkedList<Member> EditInfoMember(LinkedList<Member> members, int memberId, String type){
@@ -118,7 +119,7 @@ public class FunctionController {
         //Regex
         String regexStudentCode = "^\\d{10}$";
         String regexFullName = "^[a-zA-Z]+$";
-        String regexSex = "^[(nam)(nu)(Nam)(Nu)]+$";
+        String regexSex = "^(nam)|(nu)$";
         String regexClassName = "^[a-zA-Z]{4}[0-9]{1,2}$";
         String regexSchoolYear = "^K[0-9]{1,2}$";
         String regexPhone = "^0(9\\d{8}|3\\d{8}|5\\d{8})$";
@@ -139,23 +140,22 @@ public class FunctionController {
                 do{
                     System.out.println("Nhập họ và tên: ");
                     fullName = sc.nextLine();
-                }while (regexFullName.matches(fullName) == true);
+                }while (fullName.matches(regexFullName) == true);
 
                 members.get(indexMember).setFullName(fullName);
                 break;
             case "sex":
                 do{
                     System.out.println("Nhập giới tính: ");
-                    sex = sc.nextLine();
-                }while (regexSex.matches(sex) == true);
-
+                    sex = sc.nextLine().toLowerCase();
+                }while (sex.matches(regexSex) == false);
                 members.get(indexMember).setSex(sex);
                 break;
             case "className":
             do{
                 System.out.println("Nhập tên lớp (VD: HTTT2):  ");
                 className = sc.nextLine();
-            }while (regexClassName.matches(className) == true);
+            }while (className.matches(regexClassName) == true);
 
             members.get(indexMember).setClassName(className);
             break;
@@ -168,7 +168,7 @@ public class FunctionController {
                 do{
                     System.out.println("Nhập khóa (VD: K14):  ");
                     schoolYear = sc.nextLine();
-                }while (regexSchoolYear.matches(schoolYear) == true);
+                }while (schoolYear.matches(regexSchoolYear) == true);
 
                 members.get(indexMember).setSchoolYear(schoolYear);
                 break;
@@ -176,20 +176,20 @@ public class FunctionController {
                 do{
                     System.out.println("Nhập sđt :  ");
                     phone = sc.nextLine();
-                }while (regexPhone.matches(phone) == true);
+                }while (phone.matches(regexPhone) == true);
                 members.get(indexMember).setPhone(phone);
                 break;
             case "email":
                 do{
                     System.out.println("Nhập email:  ");
                     email = sc.nextLine();
-                }while (regexEmail.matches(email) == true);
+                }while (email.matches(regexEmail) == true);
                 members.get(indexMember).setEmail(email);
                 break;
             default:
                 System.out.println("Không có lựa chọn này");
         }
-
+        System.out.println("Sửa thành công");
         return members;
     }
 
@@ -213,20 +213,20 @@ public class FunctionController {
                 do{
                     System.out.println("Nhập tên lớp: ");
                     subjectName = sc.nextLine();
-                }while (regexSubjectName.matches(subjectName) == true);
+                }while (subjectName.matches(regexSubjectName) == true);
 
                 subjects.get(indexSubject).setSubjectName(subjectName);
+                System.out.println("Sửa thành công");
                 return subjects;
             case "teacherName":
                 do{
                     System.out.println("Nhập tên giáo viên: ");
                     teacherName = sc.nextLine();
-                }while (regexTeacherName.matches(teacherName) == true);
-
+                }while (teacherName.matches(regexTeacherName) == true);
                 subjects.get(indexSubject).setTeacherName(teacherName);
+                System.out.println("Sửa thành công");
                 return subjects;
             case "startDay":
-
                 Date dateStart;
                 try {
                     System.out.println("Nhập ngày bắt đầu: ");
@@ -235,6 +235,7 @@ public class FunctionController {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                System.out.println("Sửa thành công");
                 return subjects;
             case "endDay":
                 Date dateEnd;
@@ -245,17 +246,17 @@ public class FunctionController {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                System.out.println("Sửa thành công");
                 return subjects;
             case "numberOfStudent":
                 System.out.println("Nhập sĩ số: ");
                 numberOfStudent = sc.nextInt();
                 subjects.get(indexSubject).setNumberOfStudent(numberOfStudent);
+                System.out.println("Sửa thành công");
                 return subjects;
         }
-
         return null;
     }
-
 
     // Các phương thức lấy vị trí
 
@@ -282,16 +283,18 @@ public class FunctionController {
         FileManageController fileManageController = new FileManageController();
         LinkedList<MemberSubjectManage> memberSubjectManages = fileManageController.ReadMemSubManageFromFile(
                 fileName);
-        Boolean isDelete = false;
         String choose;
         int indexMember = getIndexMember(members, memberId);
         for(MemberSubjectManage MSM : memberSubjectManages){
-            if(MSM.getMember().getStudentId() == memberId){
+            if(MSM.getMember().getStudentId() == memberId) {
                 System.out.println("Thành viên này đang học bạn có chắc muốn xóa không ? (Y/N) ");
                 choose = sc.nextLine();
-                if(choose.equals("Y")|| choose.equals("y")){
+                if (choose.equals("Y") || choose.equals("y")) {
                     members.remove(indexMember);
                     return members;
+                } else {
+                    System.out.println("Hủy thao tác xóa");
+                    return null;
                 }
             }
         }
@@ -300,7 +303,10 @@ public class FunctionController {
             members.remove(indexMember);
             return members;
         }
-        return null;
+        else {
+            return null;
+        }
+
     }
 
     public LinkedList<Subject> DeleteSubject(LinkedList<Subject> subjects, int subjectId, String fileName){
@@ -324,7 +330,6 @@ public class FunctionController {
                     return subjects;
                 }
             }
-            System.out.println(MSM.getSubject());
         }
 
         if(indexSubject != -1){
@@ -336,7 +341,7 @@ public class FunctionController {
 
     public LinkedList<MemberSubjectManage> DeleteMSMByMemId(int memberId, LinkedList<MemberSubjectManage> msbs){
         for(int i = 0 ;i < msbs.size(); i++){
-            if(msbs.get(i).getMember().getStudentId() == memberId){
+            if(msbs.get(i).getMember().getStudentId() == memberId) {
                 msbs.remove(i);
             }
         }
@@ -351,62 +356,100 @@ public class FunctionController {
         }
         return msbs;
     };
+
     // Các phương thức tìm kiếm
     public void FindMemberById(LinkedList<Member> members, int memberId){
+        boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-20s%-10s%-10s%-15s%-15s%-15s%-15s", "ID", "StudentCode", "FullName",
                 "Sex", "ClassName", "Address", "SchoolYear", "Phone", "Email");
         System.out.println();
         for(Member member : members){
-            if(member.getStudentId() == memberId)
+            if(member.getStudentId() == memberId){
                 member.ExportMember();
+                isDisplay = true;
+            }
         }
+
+        if(isDisplay == false)
+            System.out.println("Không tìm thấy");
     }
 
     public void FindSubjectById(LinkedList<Subject> subjects, int subjectId){
+        Boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-20s%-15s%-15s%-15s", "ID", "SubjectName", "TeacherName",
                 "StartDay", "EndDay", "NumberOfStudent");
         System.out.println();
         for(Subject subject : subjects){
-            if(subject.getSubjectId() == subjectId)
+            if(subject.getSubjectId() == subjectId){
+                isDisplay = true;
                 subject.ExportSubject();
+            }
         }
+
+        if(isDisplay == false)
+            System.out.println("Không tìm thấy");
     }
 
     public void FindMemberByName(LinkedList<Member> members, String fullName){
+        Boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-20s%-10s%-10s%-15s%-15s%-15s%-15s", "ID", "StudentCode", "FullName",
                 "Sex", "ClassName", "Address", "SchoolYear", "Phone", "Email");
         System.out.println();
         for(Member member : members){
-            if(member.getFullName().equals(fullName))
+            if(member.getFullName().equals(fullName)) {
+                isDisplay = true;
                 member.ExportMember();
+            }
+        }
+
+        if(isDisplay == false){
+            System.out.println("Không tìm thấy");
         }
     }
 
     public void FindSubjectByName(LinkedList<Subject> subjects, String subjectName){
+        Boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-20s%-15s%-15s%-15s", "ID", "SubjectName", "TeacherName",
                 "StartDay", "EndDay", "NumberOfStudent");
         System.out.println();
         for(Subject subject : subjects){
-            if(subject.getSubjectName().equals(subjectName))
+            if(subject.getSubjectName().equals(subjectName)){
+                isDisplay = true;
                 subject.ExportSubject();
+            }
+        }
+        if(isDisplay == false){
+            System.out.println("Không tìm thấy");
         }
     }
 
     public void FindMemSubManageByMemId(LinkedList<MemberSubjectManage> MSMS, int memberId){
+        Boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-15s", "IdMember", "IdSubject", "statusSubject");
         System.out.println();
         for(MemberSubjectManage MSM : MSMS){
-            if(MSM.getMember().getStudentId() == memberId)
+            if(MSM.getMember().getStudentId() == memberId) {
+                isDisplay = true;
                 MSM.ExportMemberSubjectManage();
+            }
+        }
+        if(isDisplay == false){
+            System.out.println("Không tìm thấy");
         }
     }
 
     public void FindMemSubManageByMemName(LinkedList<MemberSubjectManage> MSMS, String memberName){
+        Boolean isDisplay = false;
         System.out.printf("%-15s%-15s%-15s", "IdMember", "IdSubject", "statusSubject");
         System.out.println();
         for(MemberSubjectManage MSM : MSMS){
-            if(MSM.getMember().getFullName().equals(memberName))
+            if(MSM.getMember().getFullName().equals(memberName)){
+                isDisplay = true;
                 MSM.ExportMemberSubjectManage();
+            }
+        }
+        if(isDisplay == false){
+            System.out.println("Không tìm thấy");
         }
     }
 }

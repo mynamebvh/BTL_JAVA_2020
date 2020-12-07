@@ -1,4 +1,0 @@
-1|2020606167|Nguyễn Đức Mạnh|Nam|HTTT2|Vĩnh Phúc|K14|0979150921|nguyenducmanh@gmail.com
-2|2019606167|Bùi Việt Hoang|nam|HTTT2|Hà Nội|K14|0979150931|mynamebvh@gmail.com
-3|2019606123|Nguyễn Thanh Hương|Nữ|HTTT2|Hưng yên|K14|0979654323|thanhhuowng@gmail.com
-4|2030999999|Nguyễn Văn Khiên|Nữ|HTTT2|Vĩnh Phúc|K14|0987676543|nguyenkhien@gmail.com

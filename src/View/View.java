@@ -5,14 +5,12 @@ import Model.Member;
 import Model.MemberSubjectManage;
 import Model.Subject;
 import java.util.*;
-
 public class View {
     public static void main(String[] args) {
         // Khai báo các hằng số
         final String FILE_NAME_MEMBER = "./Member.txt";
         final String FILE_NAME_SUBJECT = "./Subject.txt";
         final String FILE_NAME_MEMSUBMANAGE = "./MSM.txt";
-
 
         // Khai báo các đối tượng
         Scanner sc = new Scanner(System.in);
@@ -49,7 +47,7 @@ public class View {
                         functionController.AddMemberNew(FILE_NAME_MEMBER, members, member);
                         break;
                     case 2:
-                        System.out.println("===================DANH SÁCH TV===================");
+                        System.out.println("======================================DANH SÁCH TV======================================");
                         functionController.DisplayAllMember(members);
                         break;
                     case 3:
@@ -67,7 +65,7 @@ public class View {
                                 break;
                         }while (true);
 
-                        System.out.println("=====================MENU EDIT INFO=====================");
+                        System.out.println("======================================MENU EDIT INFO======================================");
                         System.out.println("1. Sửa mã sinh viên\n2. Sửa họ và tên\n3. Sửa giới tính");
                         System.out.println("4. Sửa tên lớp\n5. Sửa địa chỉ\n6. Sửa khóa\n7. Sửa sđt" +
                                 "\n8. Sửa email\n9. Thoát");
@@ -91,49 +89,54 @@ public class View {
                                 fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_2);
                                 break;
                             case 4:
-                            LinkedList<Member> membersTemp_3 = functionController.EditInfoMember(memberss,
+                                LinkedList<Member> membersTemp_3 = functionController.EditInfoMember(memberss,
                                     memberId, "className");
-                            fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_3);
+                                fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_3);
                             break;
                             case 5:
-                            LinkedList<Member> membersTemp_4 = functionController.EditInfoMember(members,
-                                    memberId, "address");
-                            fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_4);
+                                LinkedList<Member> membersTemp_4 = functionController.EditInfoMember(members,
+                                        memberId, "address");
+                                fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_4);
                             break;
                             case 6:
-                            LinkedList<Member> membersTemp_5 = functionController.EditInfoMember(members,
-                                    memberId, "schoolYear");
-                            fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_5);
+                                LinkedList<Member> membersTemp_5 = functionController.EditInfoMember(members,
+                                        memberId, "schoolYear");
+                                fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_5);
                             break;
                             case 7:
-                            LinkedList<Member> membersTemp_6 = functionController.EditInfoMember(members,
-                                    memberId, "phone");
-                            fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_6);
+                                LinkedList<Member> membersTemp_6 = functionController.EditInfoMember(members,
+                                        memberId, "phone");
+                                fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_6);
                             break;
                             case 8:
-                            LinkedList<Member> membersTemp_7 = functionController.EditInfoMember(members,
-                                    memberId, "email");
-                            fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_7);
+                                LinkedList<Member> membersTemp_7 = functionController.EditInfoMember(members,
+                                        memberId, "email");
+                                fileManageController.UpdateMember(FILE_NAME_MEMBER, membersTemp_7);
                             break;
                             default:
                                 System.out.println("Không có lựa chọn này");
                         }
                         break;
                     case 4:
+                        LinkedList<Member> members2 = fileManageController.ReadMemberFromFile(FILE_NAME_MEMBER);
+                        LinkedList<MemberSubjectManage> msm3 = fileManageController.ReadMemSubManageFromFile(
+                                FILE_NAME_MEMSUBMANAGE
+                        );
                         do {
                             System.out.println("Nhập id thành viên muốn xóa: ");
                             memberId = sc.nextInt();
                         }while (functionController.CheckTheMemId(members, memberId) == false);
 
-                        LinkedList<Member> member3 = functionController.DeleteMember(members,
+                        LinkedList<Member> member3 = functionController.DeleteMember(members2,
                                 memberId, FILE_NAME_MEMSUBMANAGE);
                         LinkedList<MemberSubjectManage> msm1 =
-                                functionController.DeleteMSMByMemId(memberId, memberSubjectManages);
+                                functionController.DeleteMSMByMemId(memberId, msm3);
+
                         if(member3 != null){
                             fileManageController.UpdateMember(FILE_NAME_MEMBER, member3);
                             fileManageController.UpdateMemSubManage(FILE_NAME_MEMSUBMANAGE, msm1);
+                            System.out.println("Xóa thành công");
                         }
-
                         break;
                     case 5:
                         subjectId = functionController.CheckSubjectStrict(subjects);
@@ -194,16 +197,17 @@ public class View {
                                     fileManageController.UpdateSubject(FILE_NAME_SUBJECT, subjects_5);
                                     break;
                             }
-
                         }
                         break;
                     case 8:
-
                         do {
                             System.out.println("Nhập id lớp: ");
                             subjectId = sc.nextInt();
-                        }while (functionController.CheckTheSubjectId(subjects, subjectId) == false);
 
+                            if(functionController.CheckTheSubjectId(subjects, subjectId) == false)
+                                System.out.println("id không tồn tại");
+
+                        }while (functionController.CheckTheSubjectId(subjects, subjectId) == false);
 
                         LinkedList<Subject> subjects1 = functionController.DeleteSubject(subjects,
                                 subjectId, FILE_NAME_MEMSUBMANAGE);
@@ -213,6 +217,7 @@ public class View {
                         if(subjects1 != null){
                             fileManageController.UpdateSubject(FILE_NAME_SUBJECT, subjects1);
                             fileManageController.UpdateMemSubManage(FILE_NAME_MEMSUBMANAGE, msm2);
+                            System.out.println("Xóa thành công");
                         }
                         break;
                     case 9:
@@ -299,7 +304,6 @@ public class View {
                                     break;
                             }
                         }
-
                         break;
                     case 12:
                         int choose3;
