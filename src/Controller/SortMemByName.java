@@ -10,7 +10,7 @@ public class SortMemByName implements Comparator<Member> {
     List<Character> alphaOrder = Arrays.asList('a', 'ă', 'â', 'b', 'c', 'd', 'đ', 'e', 'ê', 'f', 'g', 'h', 'i', 'j',
             'k', 'l', 'm', 'n', 'o', 'ơ', 'p', 'q', 'r', 's', 't', 'u', 'ư', 'v', 'w', 'x', 'y', 'z');
 
-    public String Slug(String str) {
+    private String Slug(String str) {
         str = str.toLowerCase();
         String from = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;";
         String to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------";

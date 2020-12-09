@@ -26,7 +26,7 @@ public class View {
                     FILE_NAME_MEMSUBMANAGE
             );
 
-            System.out.println("=============MENU=============");
+            System.out.println("========================================MENU========================================");
             System.out.println("1. Thêm thành viên\n2. Hiển thị thành viên\n3. Sửa thông tin thành viên");
             System.out.println("4. Xóa thành viên\n5. Thêm lớp học\n6. Hiển thị lớp học");
             System.out.println("7. Sửa lớp học\n8. Xóa lớp học\n" +
@@ -43,11 +43,17 @@ public class View {
                     case 1:
                         memberId = functionController.CheckMemberStrict(members);
                         Member member = new Member();
-                        member.ImportMember(memberId);
-                        functionController.AddMemberNew(FILE_NAME_MEMBER, members, member);
+                        if(memberId != -1){
+                            member.ImportMember(memberId);
+                            functionController.AddMemberNew(FILE_NAME_MEMBER, members, member);
+                        }
+                        else{
+                            System.out.println("Thêm thất bại");
+                        }
                         break;
                     case 2:
-                        System.out.println("======================================DANH SÁCH TV======================================");
+                        System.out.println("========================================DANH SÁCH TV========================" +
+                                "================");
                         functionController.DisplayAllMember(members);
                         break;
                     case 3:
@@ -65,7 +71,8 @@ public class View {
                                 break;
                         }while (true);
 
-                        System.out.println("======================================MENU EDIT INFO======================================");
+                        System.out.println("========================================MENU EDIT INFO======================" +
+                                "==================");
                         System.out.println("1. Sửa mã sinh viên\n2. Sửa họ và tên\n3. Sửa giới tính");
                         System.out.println("4. Sửa tên lớp\n5. Sửa địa chỉ\n6. Sửa khóa\n7. Sửa sđt" +
                                 "\n8. Sửa email\n9. Thoát");
@@ -161,7 +168,8 @@ public class View {
                         }while (true);
 
                         while (true){
-                            System.out.println("==================MENU EDIT INFO SUBJECT==================");
+                            System.out.println("========================================MENU EDIT INFO SUBJECT==========" +
+                                    "==============================");
                             System.out.println("1. Sửa tên lớp\n2. Sửa tên giáo viên\n3. Sửa ngày bắt đầu");
                             System.out.println("4. Sửa ngày kết thúc\n5. Sửa sĩ số\n0. Thoát");
                             System.out.println("Nhập lựa chọn: ");
@@ -265,7 +273,8 @@ public class View {
                     case 11:
                         int choose4;
                         while(true){
-                            System.out.println("====================SẮP XẾP MEMBER====================");
+                            System.out.println("========================================SẮP XẾP MEMBER==================" +
+                                    "======================");
                             System.out.println("1. Sắp xếp thành viên theo họ tên\n2. Sắp xếp thành viên theo tên lớp" +
                                     "\n3. Sắp xếp thành viên theo khóa" + "\n4. Sắp xếp lớp theo tên lớp" +
                                      "\n5. Sắp xếp lớp theo tên giáo viên\n6. Sắp xếp Manage theo trạng thái" +
@@ -307,7 +316,8 @@ public class View {
                         break;
                     case 12:
                         int choose3;
-                        System.out.println("==================MENU TÌM KIẾM==================");
+                        System.out.println("========================================MENU TÌM KIẾM=======================" +
+                                "=================");
                         System.out.println("1. Tìm kiếm thành viên theo id");
                         System.out.println("2. Tìm kiếm thành viên theo tên");
                         System.out.println("3. Tìm kiếm lớp theo id");
@@ -354,7 +364,7 @@ public class View {
                             case 6:
                                 String fullName2;
                                 sc.nextLine();
-                                System.out.println("Nhập id thành viên: ");
+                                System.out.println("Nhập tên thành viên: ");
                                 fullName2 = sc.nextLine();
                                 functionController.FindMemSubManageByMemName(memberSubjectManages, fullName2);
                                 break;

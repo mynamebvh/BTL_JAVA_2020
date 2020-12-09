@@ -13,32 +13,42 @@ import java.util.Scanner;
 public class FunctionController {
     FileManageController fileManageController;
 
+    // Phương thức chuyển có dấu sang không dấu
+    private String Slug(String str) {
+        str = str.toLowerCase();
+        String from = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;";
+        String to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------";
+        for (int i = 0; i < from.length(); i++) {
+            str = str.replace(from.charAt(i), to.charAt(i));
+        }
+        return str;
+    }
+
     // Các phương thức kiểm tra
-    public boolean CheckTheMemId(LinkedList<Member> members, int id){
-        for(Member member : members){
-            if(member.getStudentId() == id)
+    public boolean CheckTheMemId(LinkedList<Member> members, int id) {
+        for (Member member : members) {
+            if (member.getStudentId() == id)
                 return true;
         }
         return false;
     }
 
-    public int CheckMemberStrict(LinkedList<Member> members){
+    public int CheckMemberStrict(LinkedList<Member> members) {
         int memberId;
         Scanner sc = new Scanner(System.in);
-        FunctionController functionController = new FunctionController();
-        do{
+        String regexId = "^[0-9]+$";
 
+        FunctionController functionController = new FunctionController();
+        do {
             System.out.println("nhập id thành viên");
             memberId = sc.nextInt();
-
-
-            if(functionController.CheckTheMemId(members, memberId) == true){
+            if (functionController.CheckTheMemId(members, memberId) == true) {
                 System.out.println("id đã tồn tại");
-            }
-            else {
+                return -1;
+            } else {
                 return memberId;
             }
-        }while (true);
+        } while (!Integer.toString(memberId).matches(regexId));
     }
 
     public boolean CheckTheSubjectId(LinkedList<Subject> subjects, int subjectId){
@@ -118,8 +128,8 @@ public class FunctionController {
 
         //Regex
         String regexStudentCode = "^\\d{10}$";
-        String regexFullName = "^[a-zA-Z]+$";
-        String regexSex = "^(nam)|(nu)$";
+        String regexFullName = "^[^0-9!@#$%^&*()_+{}:\"<>?\\-=;',.\\[\\]]+$";
+        String regexSex = "^(nam)|(nữ)|(Nam)|(Nữ)$";
         String regexClassName = "^[a-zA-Z]{4}[0-9]{1,2}$";
         String regexSchoolYear = "^K[0-9]{1,2}$";
         String regexPhone = "^0(9\\d{8}|3\\d{8}|5\\d{8})$";
@@ -396,7 +406,8 @@ public class FunctionController {
                 "Sex", "ClassName", "Address", "SchoolYear", "Phone", "Email");
         System.out.println();
         for(Member member : members){
-            if(member.getFullName().equals(fullName)) {
+            fullName = Slug(fullName.toLowerCase());
+            if(Slug(member.getFullName().toLowerCase()).contains(fullName)){
                 isDisplay = true;
                 member.ExportMember();
             }
@@ -413,7 +424,8 @@ public class FunctionController {
                 "StartDay", "EndDay", "NumberOfStudent");
         System.out.println();
         for(Subject subject : subjects){
-            if(subject.getSubjectName().equals(subjectName)){
+            subjectName = Slug(subjectName.toLowerCase());
+            if(Slug(subject.getSubjectName().toLowerCase()).contains(subjectName)){
                 isDisplay = true;
                 subject.ExportSubject();
             }
@@ -443,7 +455,8 @@ public class FunctionController {
         System.out.printf("%-15s%-15s%-15s", "IdMember", "IdSubject", "statusSubject");
         System.out.println();
         for(MemberSubjectManage MSM : MSMS){
-            if(MSM.getMember().getFullName().equals(memberName)){
+            memberName = Slug(memberName.toLowerCase());
+            if(Slug(MSM.getMember().getFullName().toLowerCase()).contains(memberName)){
                 isDisplay = true;
                 MSM.ExportMemberSubjectManage();
             }

@@ -102,25 +102,59 @@ public class Member {
     }
 
     public void ImportMember(int id){
+        //Regex
+        String regexId ="^[0-9]+$";
+        String regexStudentCode = "^\\d{10}$";
+        String regexFullName = "^[^0-9!@#$%^&*()_+{}:\"<>?\\-=;',.\\[\\]]+$";
+        String regexSex = "^(nam)|(nữ)|(Nam)|(Nữ)$";
+        String regexClassName = "^[a-zA-Z]{4}[0-9]{1,2}$";
+        String regexSchoolYear = "^K[0-9]{1,2}$";
+        String regexPhone = "^0(9\\d{8}|3\\d{8}|5\\d{8})$";
+        String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
         Scanner sc = new Scanner(System.in);
-        this.studentId = id;
-        System.out.println("nhập mã sinh viên: ");
-        this.studentCode = sc.nextInt();
+
+        do{
+            this.studentId = id;
+        }while (!Integer.toString(this.studentId).matches(regexId));
+
+        do{
+            System.out.println("nhập mã sinh viên: ");
+            this.studentCode = sc.nextInt();
+        }while (!Integer.toString(this.studentCode).matches(regexStudentCode));
+
         sc.nextLine();
-        System.out.println("nhập họ và tên: ");
-        this.fullName = sc.nextLine();
-        System.out.println("nhập giới tính: ");
-        this.sex = sc.nextLine();
-        System.out.println("Nhập lớp (trên trường): ");
-        this.className = sc.nextLine();
+        do {
+            System.out.println("nhập họ và tên: ");
+            this.fullName = sc.nextLine();
+        }while (!this.fullName.matches(regexFullName));
+
+        do{
+            System.out.println("nhập giới tính: ");
+            this.sex = sc.nextLine().toLowerCase();
+        }while (!this.sex.matches(regexSex));
+
+        do {
+            System.out.println("Nhập lớp (trên trường): ");
+            this.className = sc.nextLine();
+        }while (!this.className.matches(regexClassName));
         System.out.println("Nhập địa chỉ: ");
         this.address = sc.nextLine();
-        System.out.println("Nhập khóa: ");
-        this.schoolYear = sc.nextLine();
-        System.out.println("Nhập sđt: ");
-        this.phone = sc.nextLine();
-        System.out.println("Nhập email: ");
-        this.email = sc.nextLine();
+
+        do {
+            System.out.println("Nhập khóa: ");
+            this.schoolYear = sc.nextLine();
+        }while (!this.schoolYear.matches(regexSchoolYear));
+
+        do {
+            System.out.println("Nhập sđt: ");
+            this.phone = sc.nextLine();
+        }while (!this.phone.matches(regexPhone));
+
+        do {
+            System.out.println("Nhập email: ");
+            this.email = sc.nextLine();
+        }while (!this.email.matches(regexEmail));
     }
 
     public void ExportMember(){
